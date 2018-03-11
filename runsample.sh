@@ -7,4 +7,4 @@ if [ $# -ne 1 ]; then
 fi
 
 echo "Running python file $1. Timing results:"
-time python $1 < ${PROJ_PATH}/sample.in | python ${PROJ_PATH}/judge.py ${PROJ_PATH}/sample.out
+time python2 $1 < ${PROJ_PATH}/sample.in | python ${PROJ_PATH}/judge.py ${PROJ_PATH}/sample.out

@@ -18,12 +18,14 @@ def LCS(A,B):
 
 def main():
 	if len(sys.argv) != 1:
-		sys.exit('Usage: `python LCS.py < input`')
+            #print sys.argv
+            sys.exit('Usage: `python LCS.py < input`')
 	
 	for l in sys.stdin:
 		A,B = l.split()
 		print LCS(A,B)
 	return
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+#    main()
+print LCS('qwioeruoqabigailqeiowuroweiuro','xmznbvmzxncvbmzabigailzxmncvbzmxncbvmznbxv')
