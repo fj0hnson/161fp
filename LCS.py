@@ -26,6 +26,6 @@ def main():
 		print LCS(A,B)
 	return
 
-#if __name__ == '__main__':
-#    main()
-print LCS('qwioeruoqabigailqeiowuroweiuro','xmznbvmzxncvbmzabigailzxmncvbzmxncbvmznbxv')
+if __name__ == '__main__':
+    main()
+#print LCS('qwioeruoqabigailqeiowuroweiuro','xmznbvmzxncvbmzabigailzxmncvbzmxncbvmznbxv')

@@ -29,13 +29,14 @@ def Cut(word,i):
     return word[i:]+word[:i]
 
 def CLCS(A,B):
+    sys.stderr.write(A+'|||'+B+'\n')
     smaller = ''
     if len(A)>len(B):
         smaller,larger = B,A
         
     else: smaller,larger = A,B
-    smaller = smaller+smaller
-    return max(LCS(Cut(smaller,i),larger) for i in range(len(smaller)))
+    larger = larger
+    return max(LCS(larger,Cut(smaller,i)) for i in range(len(smaller)))
 
 def main():
 	if len(sys.argv) != 1:
