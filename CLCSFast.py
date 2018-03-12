@@ -24,12 +24,13 @@ def InBounds(n,m,l,h): #given a position at (n,m), and the bounds lists l and h,
 #returns (score,path) where path is an array of tuples, each tuple is a coord
 def SingleShortestPath(A,B,start,l,h): 
     makeZeros(A,B,l,h)   
-    m = len(A)
+    m = len(A)/2
     n = len(B)
     path,bp = [],{}
+    print 'NEW'
     for i in range(1,n+1): #make the table
-        for j in range(max(start,h[i]),min(start+m,l[i]+1)):
-            #print j-1,i-1
+        for j in range(max(start+1,h[i]),min(start+m+1,l[i]+1)):
+          #  print j-1,i-1
             if A[j-1] == B[i-1]:
                 arr[j][i] = arr[j-1][i-1]+1
                 bp[(j,i)]=(j-1,i-1)          
@@ -40,13 +41,14 @@ def SingleShortestPath(A,B,start,l,h):
     score = arr[start+m][n]
     currNode = (start+m,n)
     while currNode != (start,0):
+        print currNode
         path.append(currNode)
         currNode = bp[currNode]
     return (score, path)
 
 def CLCS(A,B,results):
     A = A+A
-    h = {n:1 for n in range(0,len(B)+1)} #h is high boundary
+    h = {n:0 for n in range(0,len(B)+1)} #h is high boundary
     l = {n:len(A) for n in range(0,len(B)+1)} #l is low boundary
     h = SingleShortestPath(A,B,0,l,h)
     results.append(h[0])
