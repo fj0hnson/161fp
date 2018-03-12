@@ -27,7 +27,7 @@ def SingleShortestPath(A,B,start,l,h):
     m = len(A)/2
     n = len(B)
     path,bp = [],{}
-    print 'NEW'
+    #print 'NEW'
     for i in range(1,n+1): #make the table
         for j in range(max(start+1,h[i]),min(start+m+1,l[i]+1)):
           #  print j-1,i-1
@@ -40,13 +40,25 @@ def SingleShortestPath(A,B,start,l,h):
                 bp[(j,i)]=val[1]
     score = arr[start+m][n]
     currNode = (start+m,n)
-    while currNode != (start,0):
-        print currNode
+    while currNode[0]!=start and currNode[1] != 0:
+        #print currNode
         path.append(currNode)
         currNode = bp[currNode]
+    path.append(currNode)
+    if currNode[0] == start:
+        while currNode[1] != 0:       
+            currNode = (currNode[0],currNode[1]-1)
+            path.append(currNode)
+    if currNode[1] == 0:
+        while currNode[0] != start:            
+            currNode[0] = (currNode[0]-1,currNode[1])
+            path.append(currNode)
+            
+        
     return (score, path)
 
 def CLCS(A,B,results):
+    sys.stderr.write(A+'|||'+B+'\n')
     A = A+A
     h = {n:0 for n in range(0,len(B)+1)} #h is high boundary
     l = {n:len(A) for n in range(0,len(B)+1)} #l is low boundary
@@ -64,7 +76,7 @@ def CLCS(A,B,results):
     return max(results)
     
 def FindShortestPath(A,B,h,l):
-    if l[1]-h[1] <=1: return
+    if l[0]-h[0] <=1: return
     start = (h[1]+l[1])/2
     mid = SingleShortestPath(A,B,start,l,h)
     results.append(mid[0])
@@ -97,5 +109,5 @@ def main():
 #    main()
 
 #print SingleShortestPath('ABA','ABBABA',3,{0:5,1:5,2:5,3:5,4:5,5:5},{0:,1:5,2:5,3:5,4:5,5:5})
-print CLCS('ABA','ABBABA',results)
+print CLCS('BBAA','ABABB',results)
     
