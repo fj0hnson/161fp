@@ -28,7 +28,8 @@ def SingleShortestPath(A,B,start,l,h):
     n = len(B)
     path,bp = [],{}
     for i in range(1,n+1): #make the table
-        for j in range(max(start,h[i]),min(start+m+1,l[i]+1)):
+        for j in range(max(start,h[i]),min(start+m,l[i]+1)):
+            #print j-1,i-1
             if A[j-1] == B[i-1]:
                 arr[j][i] = arr[j-1][i-1]+1
                 bp[(j,i)]=(j-1,i-1)          
