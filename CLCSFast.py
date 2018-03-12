@@ -13,12 +13,12 @@ arr = np.zeros((2048, 2048), dtype=int)
 
 def makeZeros(A,B,l,h):
     n = len(B)
-    for i in range(0,n):
+    for i in range(1,n+1):
         for j in range(h[i],l[i]+1):
             arr[j][i] = 0
             
-def checkIfInBounds(n,m,l,h): #given a position at (n,m), and the bounds lists l and h, say if it's in the bounds
-    return m<l[n] and m>h[n]
+def InBounds(n,m,l,h): #given a position at (n,m), and the bounds lists l and h, say if it's in the bounds
+    return m<=l[n] and m>=h[n]
 
 
 #returns (score,path) where path is an array of tuples, each tuple is a coord
@@ -28,7 +28,7 @@ def SingleShortestPath(A,B,start,l,h):
     m = len(A)
     n = len(B)
     path,bp = [],{}
-    for i in range(1,n+1):
+    for i in range(1,n+1): #make the table
         for j in range(max(start,h[i]),min(start+m+1,l[i]+1)):
             if A[j-1] == B[i-1]:
                 arr[j][i] = arr[j-1][i-1]+1
@@ -45,8 +45,8 @@ def SingleShortestPath(A,B,start,l,h):
     return (score, path)
 
 def CLCS(A,B,results):
-    h = {n:1 for n in range(len(B))} #h is high boundary
-    l = {n:2*len(A) for n in range(len(B))} #l is low boundary
+    h = {n:1 for n in range(0,len(B)+1)} #h is high boundary
+    l = {n:2*len(A) for n in range(0,len(B)+1)} #l is low boundary
     h = SingleShortestPath(A,B,0,l,h)
     results.append(h[0])
     h = h[1]
