@@ -23,7 +23,6 @@ def InBounds(n,m,l,h): #given a position at (n,m), and the bounds lists l and h,
 
 #returns (score,path) where path is an array of tuples, each tuple is a coord
 def SingleShortestPath(A,B,start,l,h): 
-    A = A+A
     makeZeros(A,B,l,h)   
     m = len(A)
     n = len(B)
@@ -45,8 +44,9 @@ def SingleShortestPath(A,B,start,l,h):
     return (score, path)
 
 def CLCS(A,B,results):
+    A = A+A
     h = {n:1 for n in range(0,len(B)+1)} #h is high boundary
-    l = {n:2*len(A) for n in range(0,len(B)+1)} #l is low boundary
+    l = {n:len(A) for n in range(0,len(B)+1)} #l is low boundary
     h = SingleShortestPath(A,B,0,l,h)
     results.append(h[0])
     h = h[1]
@@ -56,7 +56,7 @@ def CLCS(A,B,results):
     hborder,lborder = {},{}
     for key in border:
         hborder[key] = min(border[key])
-        lborder[key] = max(border[key])+len(A)
+        lborder[key] = max(border[key])+len(A)/2
     FindShortestPath(A,B,hborder,lborder)
     return max(results)
     
@@ -72,7 +72,7 @@ def FindShortestPath(A,B,h,l):
     hborder,lborder = {},{}
     for key in border:
         hborder[key] = min(border[key])
-        lborder[key] = max(border[key])+len(A)
+        lborder[key] = max(border[key])#+len(A)/2
     FindShortestPath(A,B,h,lborder)
     FindShortestPath(A,B,hborder,l)
     
