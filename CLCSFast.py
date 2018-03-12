@@ -29,7 +29,7 @@ def SingleShortestPath(A,B,start,l,h):
     path,bp = [],{}
     #print 'NEW'
     for i in range(1,n+1): #make the table
-        for j in range(max(start+1,h[i]),min(start+m+1,l[i]+1)):
+        for j in range(max(start+1,h[i]),min(start+m,l[i]+1)):
           #  print j-1,i-1
             if A[j-1] == B[i-1]:
                 arr[j][i] = arr[j-1][i-1]+1
@@ -51,7 +51,7 @@ def SingleShortestPath(A,B,start,l,h):
             path.append(currNode)
     if currNode[1] == 0:
         while currNode[0] != start:            
-            currNode[0] = (currNode[0]-1,currNode[1])
+            currNode = (currNode[0]-1,currNode[1])
             path.append(currNode)
             
         
@@ -109,5 +109,7 @@ def main():
 #    main()
 
 #print SingleShortestPath('ABA','ABBABA',3,{0:5,1:5,2:5,3:5,4:5,5:5},{0:,1:5,2:5,3:5,4:5,5:5})
+print CLCS('ABA','ABBABA',results)
 print CLCS('BBAA','ABABB',results)
+
     
