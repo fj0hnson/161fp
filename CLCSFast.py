@@ -29,13 +29,18 @@ def SingleShortestPath(A,B,start,l,h):
     path,bp = [],{}
     #print 'NEW'
     for i in range(1,n+1): #make the table
-        for j in range(max(start+1,h[i]),min(start+m,l[i]+1)):
+        for j in range(max(start+1,h[i]),min(start+m+1,l[i]+1)):
           #  print j-1,i-1
-            if A[j-1] == B[i-1]:
+            if A[j-1] == B[i-1] and InBounds(i-1,j-1,l,h):
                 arr[j][i] = arr[j-1][i-1]+1
                 bp[(j,i)]=(j-1,i-1)          
             else:
-                val = max((arr[j-1][i], (j-1,i)), (arr[j][i-1], (j,i-1)))
+                neighbors = []
+                if InBounds(i-1,j,l,h):
+                    neighbors.append((arr[j][i-1],(j,i-1)))
+                if InBounds(i,j-1,l,h):
+                    neighbors.append((arr[j-1][i],(j-1,i)))
+                val = max(neighbors)
                 arr[j][i] = val[0]
                 bp[(j,i)]=val[1]
     score = arr[start+m][n]
@@ -58,6 +63,8 @@ def SingleShortestPath(A,B,start,l,h):
     return (score, path)
 
 def CLCS(A,B,results):
+    #results = []
+    arr.fill(0)
     sys.stderr.write(A+'|||'+B+'\n')
     A = A+A
     h = {n:0 for n in range(0,len(B)+1)} #h is high boundary
@@ -72,12 +79,12 @@ def CLCS(A,B,results):
     for key in border:
         hborder[key] = min(border[key])
         lborder[key] = max(border[key])+len(A)/2
-    FindShortestPath(A,B,hborder,lborder)
+    FindShortestPath(A,B,hborder,lborder,0,len(A)/2)
     return max(results)
     
-def FindShortestPath(A,B,h,l):
-    if l[0]-h[0] <=1: return
-    start = (h[1]+l[1])/2
+def FindShortestPath(A,B,h,l,highStart,lowStart):
+    if lowStart-highStart <=1: return
+    start = (highStart+lowStart)/2
     mid = SingleShortestPath(A,B,start,l,h)
     results.append(mid[0])
     midPath = mid[1]
@@ -88,28 +95,33 @@ def FindShortestPath(A,B,h,l):
     for key in border:
         hborder[key] = min(border[key])
         lborder[key] = max(border[key])#+len(A)/2
-    FindShortestPath(A,B,h,lborder)
-    FindShortestPath(A,B,hborder,l)
+    FindShortestPath(A,B,h,lborder,highStart,start)
+    FindShortestPath(A,B,hborder,l,start,lowStart)
     
     
     
 
 
 def main():
-	if len(sys.argv) != 1:
-            #print sys.argv
-            sys.exit('Usage: `python LCS.py < input`')
+    if len(sys.argv) != 1:
+        #print sys.argv
+        sys.exit('Usage: `python LCS.py < input`')
 	
-	for l in sys.stdin:
-		A,B = l.split()
-		print CLCS(A,B,results)
+    for l in sys.stdin:
+        results = []
+        A,B = l.split()
+        print CLCS(A,B,results)
 	return
 
-#if __name__ == '__main__':
-#    main()
+if __name__ == '__main__':
+    main()
 
 #print SingleShortestPath('ABA','ABBABA',3,{0:5,1:5,2:5,3:5,4:5,5:5},{0:,1:5,2:5,3:5,4:5,5:5})
-print CLCS('ABA','ABBABA',results)
-print CLCS('BBAA','ABABB',results)
+#print CLCS('ABA','ABBABA',results)
+#print CLCS('BBAA','ABABB',results)
+#print CLCS('EBADAEEABBBCEDE','ACBAAABDCAEADCEEBBDADDCEBCADCAEBBCDCAEDAC',results)
+#print CLCS('ACBBBCDCEDBADBBEABBEDAEADEBAEB','AEBEEAEEABAEEBCACDBBAEABCEDCABEEDACEEC',results)
+#print CLCS('C','CDCCCEDBDEADEACDEBAEDDEAEAADCAEDAD',results)
+#print CLCS('ADCDEDC','AECBABBBBDABBDBBEBDBCACDADEEDCCCAACDC',results)
 
     
